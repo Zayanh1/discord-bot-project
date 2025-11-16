@@ -1,5 +1,10 @@
 # A simple Discord bot
 import discord
+import os
+from dotenv import load_dotenv
+
+# Load environment variables from .env file
+load_dotenv()
 
 def run_bot():
     client = discord.Client()
@@ -16,9 +21,12 @@ def run_bot():
         if message.content.startswith('$hello'):
             await message.channel.send('Hello!')
 
-    # !!! CRITICAL: Hardcoded token for testing !!!
-    # TODO: Move this to an env var before deploying
-    TOKEN = "thp{g1t_bl4m3_1s_a_w0nd3rful_t00l}"
+    # Load token from environment variable
+    TOKEN = os.environ.get("DISCORD_TOKEN")
+    
+    if not TOKEN:
+        print("Error: DISCORD_TOKEN not found. Make sure to set it in your .env file.")
+        return
 
     client.run(TOKEN)
 
